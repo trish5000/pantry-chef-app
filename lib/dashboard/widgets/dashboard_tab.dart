@@ -54,10 +54,12 @@ class DashboardTab extends StatelessWidget {
             children: [
               Center(child: iconByIndex[tabIndex]!),
               const SizedBox(height: 6),
-              Text(
-                titleByIndex[tabIndex]!.toUpperCase(),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.fade,
+              Expanded(
+                child: Text(
+                  titleByIndex[tabIndex]!.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.fade,
+                ),
               ),
             ],
           ),

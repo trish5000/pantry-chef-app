@@ -9,15 +9,6 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class PantryScreen extends StatelessWidget {
-  const PantryScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text("PANTRY SCREEN");
-  }
-}
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
