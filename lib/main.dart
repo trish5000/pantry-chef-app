@@ -38,6 +38,7 @@ class PantryChefApp extends ConsumerWidget {
           routerDelegate: router,
           routeInformationParser: BeamerParser(),
           backButtonDispatcher: BeamerBackButtonDispatcher(delegate: router),
+          theme: ThemeData(primarySwatch: Colors.green),
         ),
       ),
     );
