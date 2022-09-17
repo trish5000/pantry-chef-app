@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
+import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
+import 'package:pantry_chef_app/recipes/widgets/new_recipe_dialog.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -29,6 +31,16 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
       recipes = results;
       loading = false;
     });
+  }
+
+  void _addRecipe() async {
+    final newRecipe = await showDialog<RecipeCreate>(
+        context: context, builder: (_) => const NewRecipeDialog());
+
+    if (newRecipe == null) return;
+
+    await ref.read(recipeServiceProvider).addRecipe(newRecipe);
+    _fetchRecipes();
   }
 
   Widget ingredientList(List<Ingredient> ingredients) {
@@ -64,6 +76,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
               crossAxisCount: 2,
               padding: const EdgeInsets.all(20),
               children: recipes.map((e) => recipeCard(e)).toList(),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: _addRecipe,
+              child: const Icon(Icons.add),
             ),
           );
   }
