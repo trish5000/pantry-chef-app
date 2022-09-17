@@ -70,6 +70,22 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
     );
   }
 
+  Widget deleteIngredientButton(int index) {
+    return SizedBox(
+      width: 32,
+      child: Center(
+        child: TextButton(
+          onPressed: () {
+            setState(() {
+              ingredients.removeAt(index);
+            });
+          },
+          child: const Icon(Icons.close, size: 15),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -99,9 +115,18 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
               Flexible(
                 child: ListView.builder(
                   itemCount: ingredients.length,
-                  itemBuilder: (context, index) => IngredientFields(
-                    index: index,
-                    updateRecipe: updateIngredient,
+                  itemBuilder: (context, index) => Stack(
+                    children: [
+                      IngredientFields(
+                        index: index,
+                        updateRecipe: updateIngredient,
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 2,
+                        child: deleteIngredientButton(index),
+                      ),
+                    ],
                   ),
                   shrinkWrap: true,
                 ),
