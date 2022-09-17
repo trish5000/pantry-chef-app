@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/dashboard/widgets/dashboard_bottom_bar.dart';
 import 'package:pantry_chef_app/pantry/screens/pantry_screen.dart';
+import 'package:pantry_chef_app/recipes/screens/library_screen.dart';
 import 'package:pantry_chef_app/temp_screens.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
