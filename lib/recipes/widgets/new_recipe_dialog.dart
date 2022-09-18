@@ -13,6 +13,7 @@ class NewRecipeDialog extends ConsumerStatefulWidget {
 class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
   late TextEditingController nameController, procedureController;
   List<IngredientCreate> ingredients = [];
+  List<UniqueKey> ingredientKeys = [];
 
   @override
   void initState() {
@@ -21,8 +22,17 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
     procedureController = TextEditingController();
   }
 
-  void updateIngredient(int index, IngredientCreate ingredientCreate) {
-    ingredients[index] = ingredientCreate;
+  void updateIngredient(int index, IngredientCreate updated) {
+    setState(() {
+      ingredients[index] = updated;
+    });
+  }
+
+  void deleteIngredient(int index) {
+    setState(() {
+      ingredients.removeAt(index);
+      ingredientKeys.removeAt(index);
+    });
   }
 
   Widget heading(String title) {
@@ -57,7 +67,9 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
       child: TextButton(
         onPressed: () {
           setState(() {
-            ingredients.add(IngredientCreate());
+            final newIngredient = IngredientCreate();
+            ingredients.add(newIngredient);
+            ingredientKeys.add(UniqueKey());
           });
         },
         child: Row(
@@ -70,18 +82,18 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
     );
   }
 
-  Widget deleteIngredientButton(int index) {
-    return SizedBox(
-      width: 32,
-      child: Center(
-        child: TextButton(
-          onPressed: () {
-            setState(() {
-              ingredients.removeAt(index);
-            });
-          },
-          child: const Icon(Icons.close, size: 15),
+  Widget ingredientList() {
+    return Flexible(
+      child: ListView.builder(
+        itemCount: ingredients.length,
+        itemBuilder: (context, index) => IngredientFields(
+          key: ingredientKeys[index],
+          index: index,
+          ingredient: ingredients[index],
+          updateIngredient: updateIngredient,
+          deleteIngredient: deleteIngredient,
         ),
+        shrinkWrap: true,
       ),
     );
   }
@@ -112,25 +124,7 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
                 ),
               ),
               heading("Ingredients"),
-              Flexible(
-                child: ListView.builder(
-                  itemCount: ingredients.length,
-                  itemBuilder: (context, index) => Stack(
-                    children: [
-                      IngredientFields(
-                        index: index,
-                        updateRecipe: updateIngredient,
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 2,
-                        child: deleteIngredientButton(index),
-                      ),
-                    ],
-                  ),
-                  shrinkWrap: true,
-                ),
-              ),
+              ingredientList(),
               addIngredientButton(),
               heading("Procedure"),
               procedureField(),

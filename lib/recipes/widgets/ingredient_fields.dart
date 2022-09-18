@@ -2,15 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 
-typedef UpdateRecipe = void Function(
-    int index, IngredientCreate ingredientCreate);
+// typedef UpdateIngredient = void Function(
+//   IngredientCreate oldIngredient,
+//   IngredientCreate newIngredient,
+// );
+typedef UpdateIngredient = void Function(int index, IngredientCreate updated);
+typedef DeleteIngredient = void Function(int index);
 
 class IngredientFields extends ConsumerStatefulWidget {
   final int index;
-  final UpdateRecipe? updateRecipe;
-  const IngredientFields(
-      {Key? key, required this.index, required this.updateRecipe})
-      : super(key: key);
+  final IngredientCreate ingredient;
+  final UpdateIngredient? updateIngredient;
+  final DeleteIngredient? deleteIngredient;
+  const IngredientFields({
+    Key? key,
+    required this.index,
+    required this.ingredient,
+    required this.updateIngredient,
+    required this.deleteIngredient,
+  }) : super(key: key);
 
   @override
   ConsumerState<IngredientFields> createState() => _IngredientFieldsState();
@@ -18,32 +28,42 @@ class IngredientFields extends ConsumerStatefulWidget {
 
 class _IngredientFieldsState extends ConsumerState<IngredientFields> {
   late TextEditingController nameController, quantityController, unitController;
+  // var ingredient = IngredientCreate();
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController()
+
+    final initialName = widget.ingredient.name;
+    nameController =
+        TextEditingController(text: initialName.isEmpty ? null : initialName)
+          ..addListener(() {
+            updateIngredient();
+          });
+
+    final initialQuantity = widget.ingredient.quantity;
+    quantityController = TextEditingController(
+        text: initialQuantity == 0 ? null : initialQuantity.toString())
       ..addListener(() {
-        updateRecipe();
+        updateIngredient();
       });
-    quantityController = TextEditingController()
-      ..addListener(() {
-        updateRecipe();
-      });
-    unitController = TextEditingController()
-      ..addListener(() {
-        updateRecipe();
-      });
+
+    final initialUnit = widget.ingredient.unit;
+    unitController =
+        TextEditingController(text: initialUnit.isEmpty ? null : initialUnit)
+          ..addListener(() {
+            updateIngredient();
+          });
   }
 
-  void updateRecipe() {
+  void updateIngredient() {
     if (quantityController.text.isEmpty) return;
 
-    final ingredientCreate = IngredientCreate()
+    final newIngredient = IngredientCreate()
       ..name = nameController.text
       ..quantity = double.parse(quantityController.text)
       ..unit = unitController.text;
-    widget.updateRecipe!(widget.index, ingredientCreate);
+    widget.updateIngredient!(widget.index, newIngredient);
   }
 
   Widget ingredientFields() {
@@ -74,8 +94,29 @@ class _IngredientFieldsState extends ConsumerState<IngredientFields> {
     );
   }
 
+  Widget deleteIngredientButton() {
+    return SizedBox(
+      width: 32,
+      child: Center(
+        child: TextButton(
+          onPressed: () {
+            widget.deleteIngredient!(widget.index);
+          },
+          child: const Icon(Icons.close, size: 15),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ingredientFields();
+    return Stack(children: [
+      ingredientFields(),
+      Positioned(
+        top: 10,
+        right: 2,
+        child: deleteIngredientButton(),
+      ),
+    ]);
   }
 }
