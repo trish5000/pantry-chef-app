@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pantry_chef_app/pantry/models/food_item.dart';
 import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
+import 'package:pantry_chef_app/pantry/widgets/food_item_detail.dart';
 import 'package:pantry_chef_app/pantry/widgets/new_input_dialog.dart';
 
 class PantryScreen extends ConsumerStatefulWidget {
@@ -17,6 +18,7 @@ class PantryScreen extends ConsumerStatefulWidget {
 
 class _PantryScreenState extends ConsumerState<PantryScreen> {
   List<FoodItem> foodItems = [];
+  FoodItem? currentFoodItem;
 
   @override
   void initState() {
@@ -28,12 +30,33 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
     final newFood = await showDialog<FoodItemCreate>(
         context: context, builder: (_) => const NewInputDialog());
 
-    await ref.read(pantryServiceProvider).addToPantry(newFood!);
+    if (newFood == null) return;
+
+    await ref.read(pantryServiceProvider).addToPantry(newFood);
     _fetchPantryContents();
   }
 
   void _removeFoodItem(FoodItem foodItem) async {
     await ref.read(pantryServiceProvider).deleteFoodItem(foodItem);
+    _fetchPantryContents();
+  }
+
+  void _showFoodDetail() async {
+    final maybeUpdated = await showDialog<FoodItem>(
+      context: context,
+      builder: (_) => FoodItemDetail(foodItem: currentFoodItem),
+    );
+    if (maybeUpdated == null) {
+      return;
+    }
+
+    currentFoodItem!.name = maybeUpdated.name;
+    currentFoodItem!.quantity = maybeUpdated.quantity;
+    currentFoodItem!.unit = maybeUpdated.unit;
+    currentFoodItem!.storageLocation = maybeUpdated.storageLocation;
+    currentFoodItem!.dateAdded = maybeUpdated.dateAdded;
+    currentFoodItem!.useBy = maybeUpdated.useBy;
+    await ref.read(pantryServiceProvider).updateFoodItem(currentFoodItem!);
     _fetchPantryContents();
   }
 
@@ -61,12 +84,15 @@ class _PantryScreenState extends ConsumerState<PantryScreen> {
           ],
         ),
         child: ListTile(
-          title: Text(foodItem.name),
-          leading: const FaIcon(FontAwesomeIcons.breadSlice),
-          trailing: const Text("Trailing things"),
-          visualDensity: const VisualDensity(vertical: 4),
-          tileColor: Colors.white,
-        ),
+            title: Text(foodItem.name),
+            leading: const FaIcon(FontAwesomeIcons.breadSlice),
+            trailing: Text("${foodItem.quantity} ${foodItem.unit}"),
+            visualDensity: const VisualDensity(vertical: 4),
+            tileColor: Colors.white,
+            onTap: () {
+              currentFoodItem = foodItem;
+              _showFoodDetail();
+            }),
       ),
     );
   }
