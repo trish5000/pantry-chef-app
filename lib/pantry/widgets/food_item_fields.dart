@@ -40,7 +40,7 @@ Widget nameAndQuantity(
                 child: TextField(
                   controller: quantityController,
                   decoration: InputDecoration(
-                    hintText: "amount",
+                    hintText: "amt",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
+import 'package:pantry_chef_app/recipes/widgets/delete_recipe_dialog.dart';
 import 'package:pantry_chef_app/recipes/widgets/new_recipe_dialog.dart';
 
 class LibraryScreen extends ConsumerStatefulWidget {
@@ -43,6 +44,18 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
     _fetchRecipes();
   }
 
+  void _deleteRecipe(Recipe recipe) async {
+    final delete = await showDialog<bool>(
+      context: context,
+      builder: (_) => DeleteRecipeDialog(recipeName: recipe.name),
+    );
+    if (delete!) {
+      final recipeService = ref.read(recipeServiceProvider);
+      await recipeService.deleteRecipe(recipe);
+      _fetchRecipes();
+    }
+  }
+
   Widget ingredientList(List<Ingredient> ingredients) {
     return Column(
       children: ingredients
@@ -52,16 +65,21 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   Widget recipeCard(Recipe recipe) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(recipe.name.toUpperCase()),
-          const SizedBox(height: 20),
-          ingredientList(recipe.ingredients),
-          const SizedBox(height: 20),
-          if (recipe.procedure != null) Text(recipe.procedure!),
-        ],
+    return GestureDetector(
+      onLongPress: () {
+        _deleteRecipe(recipe);
+      },
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(recipe.name.toUpperCase()),
+            const SizedBox(height: 20),
+            ingredientList(recipe.ingredients),
+            const SizedBox(height: 20),
+            if (recipe.procedure != null) Text(recipe.procedure!),
+          ],
+        ),
       ),
     );
   }
