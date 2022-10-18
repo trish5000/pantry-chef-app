@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 
-// typedef UpdateIngredient = void Function(
-//   IngredientCreate oldIngredient,
-//   IngredientCreate newIngredient,
-// );
 typedef UpdateIngredient = void Function(int index, IngredientCreate updated);
 typedef DeleteIngredient = void Function(int index);
 
@@ -28,7 +24,6 @@ class IngredientFields extends ConsumerStatefulWidget {
 
 class _IngredientFieldsState extends ConsumerState<IngredientFields> {
   late TextEditingController nameController, quantityController, unitController;
-  // var ingredient = IngredientCreate();
 
   @override
   void initState() {

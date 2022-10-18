@@ -20,6 +20,7 @@ class RecipeService {
       '/users/1/recipes',
       data: newRecipe.toJson(),
     );
+    print('response data = ${response.data}');
     return Recipe.fromJson(response.data);
   }
 

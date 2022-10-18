@@ -57,8 +57,12 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
   }
 
   Widget ingredientList(List<Ingredient> ingredients) {
+    var ingredientSubset = ingredients;
+    if (ingredients.length > 5) {
+      ingredientSubset = ingredients.sublist(0, 5);
+    }
     return Column(
-      children: ingredients
+      children: ingredientSubset
           .map((e) => Text('${e.quantity} ${e.unit} ${e.name}'))
           .toList(),
     );
@@ -77,7 +81,11 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             const SizedBox(height: 20),
             ingredientList(recipe.ingredients),
             const SizedBox(height: 20),
-            if (recipe.procedure != null) Text(recipe.procedure!),
+            if (recipe.procedure != null)
+              Text(
+                recipe.procedure!,
+                overflow: TextOverflow.ellipsis,
+              ),
           ],
         ),
       ),
