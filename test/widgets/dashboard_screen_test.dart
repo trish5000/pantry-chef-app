@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pantry_chef_app/dashboard/screens/dashboard_screen.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
+import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
 
 import '../fakes/fake_classes.dart';
 import '../fakes/mock_services.dart';
@@ -16,6 +17,10 @@ void main() {
     when(() => mockPantryService.getPantry())
         .thenAnswer((invocation) => Future(() => fakePantry()));
 
+    final mockRecipeService = MockRecipeService();
+    when(() => mockRecipeService.getRecipes())
+        .thenAnswer((invocation) => Future(() => fakeLibrary()));
+
     final router = BeamerDelegate(
       locationBuilder: RoutesLocationBuilder(
         routes: {
@@ -26,7 +31,10 @@ void main() {
 
     await tester.pumpWidget(
       SimpleMaterialAppWidget(
-        overrides: [pantryServiceProvider.overrideWithValue(mockPantryService)],
+        overrides: [
+          pantryServiceProvider.overrideWithValue(mockPantryService),
+          recipeServiceProvider.overrideWithValue(mockRecipeService)
+        ],
         child: MaterialApp.router(
           routeInformationParser: BeamerParser(),
           routerDelegate: router,

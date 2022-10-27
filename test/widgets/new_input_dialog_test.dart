@@ -18,7 +18,7 @@ void main() {
     final nameField = find.bySemanticsLabel('food name');
     expect(nameField, findsOneWidget);
 
-    final amountField = find.bySemanticsLabel('amount');
+    final amountField = find.bySemanticsLabel('amt');
     expect(amountField, findsOneWidget);
 
     final unitField = find.bySemanticsLabel('units');

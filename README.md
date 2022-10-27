@@ -32,3 +32,9 @@ flutter pub run build_runner build
 sudo apt install lcov
 genhtml coverage/lcov.info -o ./report
 ```
+### Mac report
+
+```
+brew install lcov
+genhtml coverage/lcov.info -o ./report
+```
