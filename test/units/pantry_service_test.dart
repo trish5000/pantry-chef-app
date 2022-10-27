@@ -23,6 +23,35 @@ void main() {
         return response;
       },
     );
+
+    when(() => api.get(
+          any(that: matches(r'\/users/[0-9]/food_items')),
+        )).thenAnswer(
+      (_) async {
+        final response = MockResponse();
+        when(() => response.data)
+            .thenReturn(fakePantry().map((e) => e.toJson()).toList());
+        return response;
+      },
+    );
+
+    when(() => api.put(any(that: matches(r'\/users/[0-9]/food_items')),
+        data: any(named: 'data'))).thenAnswer(
+      (_) async {
+        final response = MockResponse();
+        when(() => response.data).thenReturn(fakeFoodItem.toJson());
+        return response;
+      },
+    );
+
+    when(() => api.delete(any(that: matches(r'\/users/[0-9]/food_items')),
+        data: any(named: 'data'))).thenAnswer(
+      (_) async {
+        final response = MockResponse();
+        when(() => response.data).thenReturn(fakeFoodItem.toJson());
+        return response;
+      },
+    );
   });
 
   test('adding to pantry', () async {
@@ -30,10 +59,20 @@ void main() {
     expect(foodItem, isNot(isNull));
   });
 
-  // test('getting pantry', () async {
-  //   final foodItems = await pantryService.getPantry();
-  //   expect(foodItems, isNotEmpty);
-  // });
+  test('getting pantry', () async {
+    final foodItems = await pantryService.getPantry();
+    expect(foodItems, isNotEmpty);
+  });
+
+  test('update pantry', () async {
+    final updatedFoodItem = await pantryService.updateFoodItem(fakeFoodItem);
+    expect(updatedFoodItem, isNot(isNull));
+  });
+
+  test('delete pantry', () async {
+    final res = await pantryService.deleteFoodItem(fakeFoodItem);
+    expect(res, isNull);
+  });
 
   test('resolving service from Provider', () {
     final container = ProviderContainer(overrides: const []);

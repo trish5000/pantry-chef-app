@@ -22,7 +22,7 @@ FoodItemCreate get fakeFoodItemCreate => FoodItemCreate()
   ..storageLocation = _faker.randomGenerator.element(StorageLocation.values);
 
 List<FoodItem> fakePantry() {
-  final foodItemCount = _faker.randomGenerator.integer(300);
+  final foodItemCount = _faker.randomGenerator.integer(300, min: 1);
   return List<FoodItem>.generate(foodItemCount, (index) => fakeFoodItem);
 }
 
@@ -37,7 +37,7 @@ IngredientCreate get fakeIngredientCreate => IngredientCreate()
   ..unit = _faker.lorem.word();
 
 Recipe fakeRecipe() {
-  final ingredientCount = _faker.randomGenerator.integer(300);
+  final ingredientCount = _faker.randomGenerator.integer(3);
   final ingredients =
       List<Ingredient>.generate(ingredientCount, (index) => fakeIngredient);
 
@@ -48,7 +48,7 @@ Recipe fakeRecipe() {
 }
 
 RecipeCreate fakeRecipeCreate() {
-  final ingredientCount = _faker.randomGenerator.integer(300);
+  final ingredientCount = _faker.randomGenerator.integer(3);
   final ingredients = List<IngredientCreate>.generate(
       ingredientCount, (index) => fakeIngredientCreate);
 

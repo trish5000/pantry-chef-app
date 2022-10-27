@@ -16,7 +16,7 @@ class Ingredient {
   Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Recipe {
   Recipe();
 

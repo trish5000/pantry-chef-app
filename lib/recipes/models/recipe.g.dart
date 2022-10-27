@@ -35,6 +35,6 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'procedure': instance.procedure,
-      'ingredients': instance.ingredients,
+      'ingredients': instance.ingredients.map((e) => e.toJson()).toList(),
       'timestamp': instance.timestamp.toIso8601String(),
     };
