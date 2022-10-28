@@ -35,7 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         return;
       }
 
-      context.beamToReplacementNamed('/dashboard', stacked: false);
+      context.beamToReplacementNamed('/home', stacked: false);
     } catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

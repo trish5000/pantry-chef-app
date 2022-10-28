@@ -11,7 +11,8 @@ class RecipeService {
   RecipeService({required this.userContext, required this.api});
 
   Future<List<Recipe>> getRecipes() async {
-    final apiResponse = await api.get('/users/1/recipes');
+    final userId = userContext.user!.id;
+    final apiResponse = await api.get('/users/$userId/recipes');
     final recipes =
         apiResponse.data.map<Recipe>((r) => Recipe.fromJson(r)).toList();
     return recipes;
