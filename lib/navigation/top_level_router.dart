@@ -1,5 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pantry_chef_app/authentication/screens/login.dart';
+import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/dashboard/screens/dashboard_screen.dart';
 
 final topLevelRouterProvider = Provider((ref) {
@@ -14,8 +16,20 @@ final topLevelRouterProvider = Provider((ref) {
 
   final delegate = BeamerDelegate(
     initialPath: '/home',
+    guards: [
+      BeamGuard(
+        pathPatterns: ['/login'],
+        guardNonMatching: true,
+        beamToNamed: (origin, target) => '/login',
+        check: (ctx, location) {
+          final auth = ref.read(authProvider);
+          return auth.loggedIn;
+        },
+      )
+    ],
     locationBuilder: RoutesLocationBuilder(
       routes: {
+        '/login': (context, state, data) => const LoginScreen(),
         RegExp(r'\/' + tabRoutesRegEx + '.*'): (ctx, state, data) =>
             const DashboardScreen(),
       },

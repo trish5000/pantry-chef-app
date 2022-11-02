@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pantry_chef_app/configuration/config_settings.dart';
 import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
 
@@ -14,7 +15,10 @@ void main() {
   setUp(() {
     api = MockDio();
 
-    recipeService = RecipeService(api: api);
+    recipeService = RecipeService(
+      userContext: fakeUserContext,
+      api: api,
+    );
 
     when(() => api.post(any(that: matches(r'\/users/[0-9]/recipes')),
         data: any(named: 'data'))).thenAnswer(
@@ -76,7 +80,11 @@ void main() {
   });
 
   test('resolving service from Provider', () {
-    final container = ProviderContainer(overrides: const []);
+    final mockConfigSettings = MockConfigSettings();
+
+    final container = ProviderContainer(
+      overrides: [configSettingsProvider.overrideWithValue(mockConfigSettings)],
+    );
     final recipeService = container.read(recipeServiceProvider);
 
     expect(recipeService, isNot(isNull));
