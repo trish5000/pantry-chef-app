@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pantry_chef_app/configuration/config_settings.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
 
 import '../fakes/fake_classes.dart';
@@ -13,7 +14,10 @@ void main() {
   setUp(() {
     api = MockDio();
 
-    pantryService = PantryService(api: api);
+    pantryService = PantryService(
+      userContext: fakeUserContext,
+      api: api,
+    );
 
     when(() => api.post(any(that: matches(r'\/users/[0-9]/food_items')),
         data: any(named: 'data'))).thenAnswer(
@@ -75,7 +79,10 @@ void main() {
   });
 
   test('resolving service from Provider', () {
-    final container = ProviderContainer(overrides: const []);
+    final mockConfigSettings = MockConfigSettings();
+    final container = ProviderContainer(overrides: [
+      configSettingsProvider.overrideWithValue(mockConfigSettings)
+    ]);
     final pantryService = container.read(pantryServiceProvider);
 
     expect(pantryService, isNot(isNull));

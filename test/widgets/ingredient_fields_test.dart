@@ -6,8 +6,15 @@ import 'package:pantry_chef_app/recipes/widgets/ingredient_fields.dart';
 import 'simple_material_app_widget.dart';
 
 void main() {
-  void mockUpdateIngredient(int index, IngredientCreate updated) {}
+  late void Function(int index, IngredientCreate updated) updateCallback;
+  late IngredientCreate updatedIngredient;
   void mockDeleteIngredient(int index) {}
+
+  setUpAll(() {
+    updateCallback = (int index, IngredientCreate updated) {
+      updatedIngredient = updated;
+    };
+  });
 
   testWidgets('Ingredient Fields - render smoke test',
       (WidgetTester tester) async {
@@ -17,7 +24,7 @@ void main() {
         child: IngredientFields(
           index: 1,
           ingredient: IngredientCreate(),
-          updateIngredient: mockUpdateIngredient,
+          updateIngredient: updateCallback,
           deleteIngredient: mockDeleteIngredient,
         ),
       ),
@@ -31,5 +38,19 @@ void main() {
 
     final ingredientField = find.bySemanticsLabel('ingredient');
     expect(ingredientField, findsOneWidget);
+
+    final expectedIngredient = IngredientCreate()
+      ..name = 'rice'
+      ..quantity = 5
+      ..unit = 'cups';
+
+    await tester.enterText(amountField, expectedIngredient.quantity.toString());
+    await tester.enterText(unitField, expectedIngredient.unit);
+    await tester.enterText(ingredientField, expectedIngredient.name);
+    await tester.pumpAndSettle();
+
+    expect(updatedIngredient.name, equals(expectedIngredient.name));
+    expect(updatedIngredient.quantity, equals(expectedIngredient.quantity));
+    expect(updatedIngredient.unit, equals(expectedIngredient.unit));
   });
 }

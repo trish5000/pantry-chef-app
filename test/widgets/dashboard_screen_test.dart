@@ -66,7 +66,7 @@ void main() {
     await tester.tap(profileTab);
     await tester.pumpAndSettle();
 
-    final profileText = find.textContaining('PROFILE SCREEN');
+    final profileText = find.textContaining('Log Out');
     expect(profileText, findsOneWidget);
 
     final libraryTab = find.text('RECIPE LIBRARY');

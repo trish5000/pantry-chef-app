@@ -1,5 +1,4 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -50,26 +49,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
-  Widget branding() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Pantry Chef',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Colors.white),
-            )
-          ],
-        ),
-      ],
-    );
-  }
-
   Widget loginButton() {
     return ElevatedButton(
       key: const Key('login-authenticate-fab'),
@@ -92,16 +71,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const Text('Sign In With Google')
         ],
       ),
-    );
-  }
-
-  InputDecoration textDecoration(String text) {
-    return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-      hintText: text,
-      filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.only(top: 20, left: 10),
     );
   }
 

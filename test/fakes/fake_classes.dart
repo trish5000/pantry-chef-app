@@ -1,8 +1,10 @@
 import 'package:faker/faker.dart';
+import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/pantry/models/food_item.dart';
 import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
+import 'package:pantry_chef_app/user/models/user.dart';
 
 final _faker = Faker();
 FoodItem get fakeFoodItem => FoodItem()
@@ -62,3 +64,12 @@ List<Recipe> fakeLibrary() {
   final recipeCount = _faker.randomGenerator.integer(300);
   return List<Recipe>.generate(recipeCount, (index) => fakeRecipe());
 }
+
+User get fakeUser => User()
+  ..firstName = Faker().person.firstName()
+  ..lastName = Faker().person.lastName()
+  ..email = Faker().internet.email();
+
+UserContext get fakeUserContext => UserContext()
+  ..token = 'test'
+  ..user = fakeUser;
