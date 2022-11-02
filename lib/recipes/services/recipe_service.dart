@@ -20,20 +20,20 @@ class RecipeService {
 
   Future<Recipe> addRecipe(RecipeCreate newRecipe) async {
     final userId = userContext.user!.id;
-    final response = await api.post(
+    final apiResponse = await api.post(
       '/users/$userId/recipes',
       data: newRecipe.toJson(),
     );
-    return Recipe.fromJson(response.data);
+    return Recipe.fromJson(apiResponse.data);
   }
 
   Future<Recipe> updateRecipe(Recipe recipe) async {
     final userId = userContext.user!.id;
-    final response = await api.put(
+    final apiResponse = await api.put(
       '/users/$userId/recipes',
       data: recipe.toJson(),
     );
-    return Recipe.fromJson(response.data);
+    return Recipe.fromJson(apiResponse.data);
   }
 
   Future deleteRecipe(Recipe recipe) async {

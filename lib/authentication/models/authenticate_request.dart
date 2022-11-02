@@ -6,10 +6,6 @@ part 'authenticate_request.g.dart';
 class AuthenticateRequest {
   AuthenticateRequest();
   String token = '';
-  @JsonKey(name: 'first_name')
-  String? firstName;
-  @JsonKey(name: 'last_name')
-  String? lastName;
 
   factory AuthenticateRequest.fromJson(Map<String, dynamic> json) =>
       _$AuthenticateRequestFromJson(json);

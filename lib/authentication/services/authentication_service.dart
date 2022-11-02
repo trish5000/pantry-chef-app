@@ -18,24 +18,19 @@ class AuthenticationService {
     return auth?.idToken;
   }
 
-  Future<AuthenticateResponse> login(
-      [String? firstName, String? lastName]) async {
+  Future<AuthenticateResponse> login() async {
     final idToken = await _authorizeWithGoogle();
 
     if (idToken == null) {
       throw 'Invalid login';
     }
-    final authRequest = AuthenticateRequest()
-      ..token = idToken
-      ..firstName = firstName
-      ..lastName = lastName;
+    final authRequest = AuthenticateRequest()..token = idToken;
 
     final dioResponse = await api.post(
       '/auth/authenticate',
       data: authRequest.toJson(),
     );
-    final response = AuthenticateResponse.fromJson(dioResponse.data);
-    return response;
+    return AuthenticateResponse.fromJson(dioResponse.data);
   }
 }
 

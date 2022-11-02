@@ -25,11 +25,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authContext = ref.read(authProvider.notifier);
 
     try {
-      AuthenticateResponse auth;
+      AuthenticateResponse auth = await authService.login();
 
-      auth = await authService.login();
-
-      authContext.logIn(auth.user!, auth.accessToken!);
+      await authContext.logIn(auth.user!, auth.accessToken!);
       if (!mounted) {
         return;
       }

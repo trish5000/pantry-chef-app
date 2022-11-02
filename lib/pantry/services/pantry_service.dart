@@ -23,20 +23,20 @@ class PantryService {
 
   Future<FoodItem> addToPantry(FoodItemCreate newFoodItem) async {
     final userId = userContext.user!.id;
-    final response = await api.post(
+    final apiResponse = await api.post(
       '/users/$userId/food_items',
       data: newFoodItem.toJson(),
     );
-    return FoodItem.fromJson(response.data);
+    return FoodItem.fromJson(apiResponse.data);
   }
 
   Future<FoodItem> updateFoodItem(FoodItem foodItem) async {
     final userId = userContext.user!.id;
-    final response = await api.put(
+    final apiResponse = await api.put(
       '/users/$userId/food_items',
       data: foodItem.toJson(),
     );
-    return FoodItem.fromJson(response.data);
+    return FoodItem.fromJson(apiResponse.data);
   }
 
   Future deleteFoodItem(FoodItem foodItem) async {

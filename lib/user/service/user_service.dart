@@ -10,8 +10,8 @@ class UsersService {
   UsersService({required this.userContext, required this.api});
 
   Future<List<User>> getUsers() async {
-    final response = await api.get('/users');
-    return response.data
+    final apiResponse = await api.get('/users');
+    return apiResponse.data
         .map<User>(
           (i) => User.fromJson(i),
         )
@@ -20,8 +20,8 @@ class UsersService {
 
   Future<User> getUser({int? userId}) async {
     userId ??= userContext.user!.id;
-    final response = await api.get('/users/$userId');
-    return User.fromJson(response.data);
+    final apiResponse = await api.get('/users/$userId');
+    return User.fromJson(apiResponse.data);
   }
 }
 
