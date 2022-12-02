@@ -13,10 +13,13 @@ class HouseholdService {
   Future<List<HouseholdMember>> getHousehold() async {
     final userId = userContext.user!.id;
     final apiResponse = await api.get('/users/$userId/household');
-    final householdMembers = apiResponse.data
+    final List<HouseholdMember> householdMembers = apiResponse.data
         .map<HouseholdMember>((member) => HouseholdMember.fromJson(member))
         .toList();
-    print(householdMembers.length);
+
+    final userIndex = householdMembers.indexWhere((m) => m.userId == userId);
+    householdMembers.insert(0, householdMembers.removeAt(userIndex));
+
     return householdMembers;
   }
 
