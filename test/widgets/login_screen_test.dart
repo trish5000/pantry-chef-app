@@ -34,6 +34,5 @@ void main() {
     await tester.tap(loginButton);
 
     verify(() => authService.login());
-    await tester.pumpAndSettle();
   });
 }
