@@ -30,6 +30,7 @@ final topLevelRouterProvider = Provider((ref) {
     locationBuilder: RoutesLocationBuilder(
       routes: {
         '/login': (context, state, data) => const LoginScreen(),
+        // ignore: prefer_interpolation_to_compose_strings
         RegExp(r'\/' + tabRoutesRegEx + '.*'): (ctx, state, data) =>
             const DashboardScreen(),
       },

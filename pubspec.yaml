@@ -51,6 +51,7 @@ dependencies:
   google_sign_in: ^5.4.2
   yaml: ^3.1.1
   google_sign_in_dartio: ^0.2.1
+  dlcov: ^4.2.1
 
 dev_dependencies:
   flutter_test:
