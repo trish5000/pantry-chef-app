@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/models/household_member_create.dart';
+import 'package:pantry_chef_app/profile/services/household_service.dart';
 
 class HouseholdMemberTile extends ConsumerStatefulWidget {
   final HouseholdMember householdMember;
@@ -16,6 +17,19 @@ class HouseholdMemberTile extends ConsumerStatefulWidget {
 }
 
 class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
+  late HouseholdMember member;
+
+  @override
+  void initState() {
+    super.initState();
+    member = widget.householdMember;
+  }
+
+  void _updateMember() async {
+    final householdService = ref.read(householdServiceProvider);
+    await householdService.updateHouseholdMember(member);
+  }
+
   Widget ageDropdown() {
     return Container(
       height: 36,
@@ -44,7 +58,13 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
                 ),
               )
               .toList(),
-          onChanged: (_) {},
+          onChanged: (value) {
+            final child = value == 'CHILD';
+            if (child != member.child) {
+              member.child = child;
+              _updateMember();
+            }
+          },
         ),
       ),
     );
@@ -61,13 +81,22 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
   }
 
   Widget checkboxEnum(DietaryPreferences pref) {
-    return Row(children: [
-      Checkbox(
-        value: widget.householdMember.dietaryPreferences.contains(pref),
-        onChanged: (_) {},
-      ),
-      Text(pref.name),
-    ]);
+    return Row(
+      children: [
+        Checkbox(
+          value: widget.householdMember.dietaryPreferences.contains(pref),
+          onChanged: (checked) {
+            setState(() {
+              checked!
+                  ? member.dietaryPreferences.add(pref)
+                  : member.dietaryPreferences.remove(pref);
+            });
+            _updateMember();
+          },
+        ),
+        Text(pref.name),
+      ],
+    );
   }
 
   Widget dietaryPreferences() {
