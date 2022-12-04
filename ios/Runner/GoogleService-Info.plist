@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>391332921336-bdj78hd8c4hgsn6jvi9kdubhmllabu2u.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.391332921336-bdj78hd8c4hgsn6jvi9kdubhmllabu2u</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>391332921336-t00d3qgeokpfdujn9t8o75algcmokgds.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDmD1fY7zI3iR4Kga94MjinBE-JsCIiQAM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>391332921336</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.pantryChef</string>
+	<key>PROJECT_ID</key>
+	<string>pantry-chef-366918</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pantry-chef-366918.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:391332921336:ios:24f08779138c106441a00d</string>
+</dict>
+</plist>
