@@ -38,6 +38,8 @@ Widget nameAndQuantity(
               SizedBox(
                 width: 65,
                 child: TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: quantityController,
                   decoration: InputDecoration(
                     hintText: "amt",

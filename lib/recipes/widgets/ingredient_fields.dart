@@ -67,6 +67,7 @@ class _IngredientFieldsState extends ConsumerState<IngredientFields> {
       children: [
         IntrinsicWidth(
           child: TextField(
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             controller: quantityController,
             decoration: const InputDecoration(hintText: "amount"),
           ),
