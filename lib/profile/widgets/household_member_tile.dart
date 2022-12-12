@@ -32,17 +32,18 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
 
   Widget ageDropdown() {
     return Container(
-      height: 36,
+      height: 40,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).splashColor,
       ),
-      child: IntrinsicWidth(
+      child: SizedBox(
+        width: 100,
         child: DropdownButtonFormField(
           decoration: const InputDecoration(
             border: InputBorder.none,
-            contentPadding: EdgeInsets.only(bottom: 16, left: 6, right: 2),
+            contentPadding: EdgeInsets.only(bottom: 10, left: 6, right: 2),
           ),
           isDense: true,
           alignment: Alignment.center,
@@ -53,7 +54,7 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
                   value: e,
                   child: Text(
                     e,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               )
@@ -74,7 +75,7 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
     return Padding(
       padding: const EdgeInsets.only(left: 2),
       child: Text(
-        widget.householdMember.firstName!,
+        widget.householdMember.firstName,
         style: Theme.of(context).textTheme.titleMedium,
       ),
     );
@@ -84,6 +85,8 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
     return Row(
       children: [
         Checkbox(
+          visualDensity:
+              const VisualDensity(vertical: VisualDensity.minimumDensity),
           value: widget.householdMember.dietaryPreferences.contains(pref),
           onChanged: (checked) {
             setState(() {
@@ -109,16 +112,10 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
             checkboxEnum(DietaryPreferences.none),
             checkboxEnum(DietaryPreferences.vegetarian),
             checkboxEnum(DietaryPreferences.pescatarian),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
             checkboxEnum(DietaryPreferences.vegan),
             checkboxEnum(DietaryPreferences.glutenFree),
           ],
-        )
+        ),
       ],
     );
   }
@@ -127,27 +124,30 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+        padding:
+            const EdgeInsets.only(left: 20, right: 12, bottom: 14, top: 14),
         child: Row(
           children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: CircleAvatar(
-                child: Text(widget.householdMember.firstName![0].toLowerCase()),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2 - 36,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  name(),
-                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        child: Text(
+                            widget.householdMember.firstName[0].toLowerCase()),
+                      ),
+                      const SizedBox(width: 10),
+                      name(),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   ageDropdown(),
                 ],
               ),
             ),
-            const SizedBox(width: 14),
             dietaryPreferences(),
           ],
         ),

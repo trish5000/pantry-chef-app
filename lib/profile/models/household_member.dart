@@ -11,7 +11,7 @@ class HouseholdMember {
   int headOfHouseholdId = 0;
 
   @JsonKey(name: "first_name")
-  String? firstName;
+  String firstName = '';
 
   @JsonKey(name: "last_name")
   String? lastName;

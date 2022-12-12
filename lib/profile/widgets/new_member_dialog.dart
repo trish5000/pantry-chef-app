@@ -33,8 +33,7 @@ class _NewMemberDialogState extends ConsumerState<NewMemberDialog> {
   }
 
   void checkFormComplete() {
-    final currentState = firstNameController.text.isNotEmpty &&
-        lastNameController.text.isNotEmpty;
+    final currentState = firstNameController.text.isNotEmpty;
 
     if (formComplete != currentState) {
       setState(() {
@@ -73,7 +72,9 @@ class _NewMemberDialogState extends ConsumerState<NewMemberDialog> {
               ? () => Navigator.of(context).pop(
                     HouseholdMemberCreate()
                       ..firstName = firstNameController.text
-                      ..lastName = lastNameController.text,
+                      ..lastName = lastNameController.text.isEmpty
+                          ? null
+                          : lastNameController.text,
                   )
               : null,
           child: const Text('add'),

@@ -10,7 +10,7 @@ HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
     HouseholdMember()
       ..id = json['id'] as int
       ..headOfHouseholdId = json['head_of_household_id'] as int
-      ..firstName = json['first_name'] as String?
+      ..firstName = json['first_name'] as String
       ..lastName = json['last_name'] as String?
       ..userId = json['user_id'] as int?
       ..child = json['child'] as bool
