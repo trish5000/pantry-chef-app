@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/models/household_member_create.dart';
 import 'package:pantry_chef_app/profile/services/household_service.dart';
@@ -129,7 +130,11 @@ class _HouseholdMemberTileState extends ConsumerState<HouseholdMemberTile> {
 
   @override
   Widget build(BuildContext context) {
+    final userContext = ref.watch(authProvider);
+    final isCurrentUser = userContext.user!.id == widget.householdMember.userId;
+
     return Slidable(
+      enabled: !isCurrentUser,
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
         children: [
