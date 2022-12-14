@@ -36,6 +36,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     });
   }
 
+  void removeMember(int index) async {
+    final householdService = ref.read(householdServiceProvider);
+    await householdService.removeHouseholdMember(members[index]);
+
+    _fetchHousehold();
+  }
+
   Future _logout() async {
     final userContextNotifier = ref.read(authProvider.notifier);
     userContextNotifier.logOut();
@@ -63,7 +70,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: ((context, index) => HouseholdMemberTile(
+                          index: index,
                           householdMember: members[index],
+                          removeMember: removeMember,
                         )),
                     itemCount: members.length,
                   ),
@@ -101,6 +110,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final householdService = ref.read(householdServiceProvider);
     await householdService.addMember(newMemberCreate);
+
     _fetchHousehold();
   }
 

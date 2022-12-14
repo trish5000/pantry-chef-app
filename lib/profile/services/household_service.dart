@@ -41,7 +41,7 @@ class HouseholdService {
     return HouseholdMember.fromJson(apiResponse.data);
   }
 
-  Future deleteFoodItem(HouseholdMember member) async {
+  Future removeHouseholdMember(HouseholdMember member) async {
     final userId = userContext.user!.id;
     await api.delete(
       '/users/$userId/household',
