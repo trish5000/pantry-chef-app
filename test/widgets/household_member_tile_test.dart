@@ -4,13 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/widgets/household_member_tile.dart';
-import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 
 import '../fakes/fake_classes.dart';
 import 'simple_material_app_widget.dart';
 
 void main() {
-  late void Function(int index, IngredientCreate updated) updateCallback;
   late StateNotifierProvider<UserContextNotifier, UserContext> mockAuthProvider;
   late HouseholdMember member;
   void mockRemoveMember(int index) {}
