@@ -2,11 +2,14 @@ import 'package:faker/faker.dart';
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/pantry/models/food_item.dart';
 import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
+import 'package:pantry_chef_app/profile/models/household_member.dart';
+import 'package:pantry_chef_app/profile/models/household_member_create.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
 import 'package:pantry_chef_app/user/models/user.dart';
 
 final _faker = Faker();
+
 FoodItem get fakeFoodItem => FoodItem()
   ..name = _faker.lorem.word()
   ..quantity = _faker.randomGenerator.decimal()
@@ -66,10 +69,25 @@ List<Recipe> fakeLibrary() {
 }
 
 User get fakeUser => User()
-  ..firstName = Faker().person.firstName()
-  ..lastName = Faker().person.lastName()
-  ..email = Faker().internet.email();
+  ..firstName = _faker.person.firstName()
+  ..lastName = _faker.person.lastName()
+  ..email = _faker.internet.email();
 
 UserContext get fakeUserContext => UserContext()
   ..token = 'test'
   ..user = fakeUser;
+
+HouseholdMemberCreate get fakeHouseholdMemberCreate =>
+    HouseholdMemberCreate()..firstName = _faker.person.firstName();
+
+HouseholdMember get fakeHouseholdMember => HouseholdMember()
+  ..firstName = _faker.person.firstName()
+  ..lastName = _faker.person.lastName()
+  ..child = _faker.randomGenerator.boolean()
+  ..dietaryPreferences = [];
+
+List<HouseholdMember> fakeHousehold() {
+  final memberCount = _faker.randomGenerator.integer(50, min: 1);
+  return List<HouseholdMember>.generate(
+      memberCount, (index) => fakeHouseholdMember);
+}

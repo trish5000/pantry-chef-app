@@ -1,9 +1,12 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/dashboard/screens/dashboard_screen.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
+import 'package:pantry_chef_app/profile/services/household_service.dart';
 import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
 
 import '../fakes/fake_classes.dart';
@@ -21,6 +24,15 @@ void main() {
     when(() => mockRecipeService.getRecipes())
         .thenAnswer((invocation) => Future(() => fakeLibrary()));
 
+    final mockHouseholdService = MockHouseholdService();
+    when(() => mockHouseholdService.getHousehold())
+        .thenAnswer((invocation) => Future(() => fakeHousehold()));
+
+    final mockAuthProvider =
+        StateNotifierProvider<UserContextNotifier, UserContext>(
+      (ref) => UserContextNotifier()..logIn(fakeUser, 'fakeToken'),
+    );
+
     final router = BeamerDelegate(
       locationBuilder: RoutesLocationBuilder(
         routes: {
@@ -33,7 +45,9 @@ void main() {
       SimpleMaterialAppWidget(
         overrides: [
           pantryServiceProvider.overrideWithValue(mockPantryService),
-          recipeServiceProvider.overrideWithValue(mockRecipeService)
+          recipeServiceProvider.overrideWithValue(mockRecipeService),
+          householdServiceProvider.overrideWithValue(mockHouseholdService),
+          authProvider.overrideWithProvider(mockAuthProvider),
         ],
         child: MaterialApp.router(
           routeInformationParser: BeamerParser(),

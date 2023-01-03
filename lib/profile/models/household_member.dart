@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'household_member_create.dart';
+import 'package:pantry_chef_app/profile/models/dietary_preference.dart';
+
 part 'household_member.g.dart';
 
 @JsonSerializable()
@@ -22,7 +23,7 @@ class HouseholdMember {
   bool child = false;
 
   @JsonKey(name: "dietary_preferences")
-  List<DietaryPreferences> dietaryPreferences = [];
+  List<DietaryPreference> dietaryPreferences = [];
 
   factory HouseholdMember.fromJson(Map<String, dynamic> json) =>
       _$HouseholdMemberFromJson(json);

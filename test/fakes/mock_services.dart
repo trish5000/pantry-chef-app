@@ -6,6 +6,7 @@ import 'package:pantry_chef_app/authentication/services/authentication_service.d
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/configuration/config_settings.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
+import 'package:pantry_chef_app/profile/services/household_service.dart';
 import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
 
 class MockPantryService extends Mock implements PantryService {}
@@ -13,6 +14,8 @@ class MockPantryService extends Mock implements PantryService {}
 class MockBeamerDelegate extends Mock implements BeamerDelegate {}
 
 class MockRecipeService extends Mock implements RecipeService {}
+
+class MockHouseholdService extends Mock implements HouseholdService {}
 
 class MockDio extends Mock implements Dio {}
 

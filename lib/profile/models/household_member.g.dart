@@ -15,7 +15,7 @@ HouseholdMember _$HouseholdMemberFromJson(Map<String, dynamic> json) =>
       ..userId = json['user_id'] as int?
       ..child = json['child'] as bool
       ..dietaryPreferences = (json['dietary_preferences'] as List<dynamic>)
-          .map((e) => $enumDecode(_$DietaryPreferencesEnumMap, e))
+          .map((e) => DietaryPreference.fromJson(e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
@@ -26,15 +26,5 @@ Map<String, dynamic> _$HouseholdMemberToJson(HouseholdMember instance) =>
       'last_name': instance.lastName,
       'user_id': instance.userId,
       'child': instance.child,
-      'dietary_preferences': instance.dietaryPreferences
-          .map((e) => _$DietaryPreferencesEnumMap[e]!)
-          .toList(),
+      'dietary_preferences': instance.dietaryPreferences,
     };
-
-const _$DietaryPreferencesEnumMap = {
-  DietaryPreferences.none: 0,
-  DietaryPreferences.vegetarian: 1,
-  DietaryPreferences.pescatarian: 2,
-  DietaryPreferences.vegan: 3,
-  DietaryPreferences.glutenFree: 4,
-};
