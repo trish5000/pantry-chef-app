@@ -7,7 +7,7 @@ part 'dietary_preference.g.dart';
 class DietaryPreference {
   DietaryPreference();
 
-  DietaryPreferenceEnum preference = DietaryPreferenceEnum.vegetarian;
+  DietaryPreferenceEnum preference = DietaryPreferenceEnum.vegan;
 
   factory DietaryPreference.fromJson(Map<String, dynamic> json) =>
       _$DietaryPreferenceFromJson(json);

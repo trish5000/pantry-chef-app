@@ -20,6 +20,7 @@ class RecipeCreate {
   RecipeCreate();
 
   String name = '';
+  double servings = 0.0;
   String? procedure;
   List<IngredientCreate> ingredients = [];
 

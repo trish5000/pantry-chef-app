@@ -25,6 +25,7 @@ class Recipe {
 
   int id = 0;
   String name = '';
+  double servings = 0.0;
   String? procedure;
   List<Ingredient> ingredients = [];
   DateTime timestamp = DateTime.now().toUtc();

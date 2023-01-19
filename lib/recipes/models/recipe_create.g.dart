@@ -21,6 +21,7 @@ Map<String, dynamic> _$IngredientCreateToJson(IngredientCreate instance) =>
 
 RecipeCreate _$RecipeCreateFromJson(Map<String, dynamic> json) => RecipeCreate()
   ..name = json['name'] as String
+  ..servings = (json['servings'] as num).toDouble()
   ..procedure = json['procedure'] as String?
   ..ingredients = (json['ingredients'] as List<dynamic>)
       .map((e) => IngredientCreate.fromJson(e as Map<String, dynamic>))
@@ -29,6 +30,7 @@ RecipeCreate _$RecipeCreateFromJson(Map<String, dynamic> json) => RecipeCreate()
 Map<String, dynamic> _$RecipeCreateToJson(RecipeCreate instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'servings': instance.servings,
       'procedure': instance.procedure,
       'ingredients': instance.ingredients,
     };

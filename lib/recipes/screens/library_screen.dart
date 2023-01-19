@@ -77,7 +77,15 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(recipe.name.toUpperCase()),
+            Text(
+              recipe.name.toUpperCase(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'yields ${recipe.servings.toString()} servings',
+              style: const TextStyle(fontStyle: FontStyle.italic),
+            ),
             const SizedBox(height: 20),
             ingredientList(recipe.ingredients),
             const SizedBox(height: 20),
