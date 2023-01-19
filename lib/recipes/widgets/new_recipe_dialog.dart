@@ -11,7 +11,9 @@ class NewRecipeDialog extends ConsumerStatefulWidget {
 }
 
 class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
-  late TextEditingController nameController, procedureController;
+  late TextEditingController nameController,
+      procedureController,
+      servingsController;
   List<IngredientCreate> ingredients = [];
   List<UniqueKey> ingredientKeys = [];
 
@@ -20,6 +22,7 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
     super.initState();
     nameController = TextEditingController();
     procedureController = TextEditingController();
+    servingsController = TextEditingController();
   }
 
   void updateIngredient(int index, IngredientCreate updated) {
@@ -98,6 +101,20 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
     );
   }
 
+  Widget servingsField() {
+    return TextField(
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      decoration: InputDecoration(
+        hintText: "1.0",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        contentPadding: const EdgeInsets.only(top: 12, left: 12, bottom: 12),
+      ),
+      controller: servingsController,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -123,6 +140,8 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              heading("Servings"),
+              servingsField(),
               heading("Ingredients"),
               ingredientList(),
               addIngredientButton(),
@@ -133,11 +152,12 @@ class _NewRecipeDialogState extends ConsumerState<NewRecipeDialog> {
                 onPressed: () => Navigator.of(context).pop(
                   RecipeCreate()
                     ..name = nameController.text
+                    ..servings = double.parse(servingsController.text)
                     ..procedure = procedureController.text
                     ..ingredients = ingredients,
                 ),
                 child: const Text(
-                  "Add Recipe",
+                  "Add Recipe", // TODO add validation and button disabling
                   style: TextStyle(fontSize: 18),
                 ),
               )
