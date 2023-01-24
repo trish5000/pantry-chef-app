@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
-import 'package:pantry_chef_app/pantry/widgets/food_item_fields.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
+import 'package:pantry_chef_app/pantry/widgets/pantry_item_fields.dart';
 
 class NewInputDialog extends ConsumerStatefulWidget {
   const NewInputDialog({Key? key}) : super(key: key);
@@ -61,7 +61,7 @@ class _NewInputDialogState extends ConsumerState<NewInputDialog> {
     return SimpleDialog(
       contentPadding: const EdgeInsets.all(25),
       children: [
-        foodItemFormFields(
+        pantryItemFormFields(
           nameController,
           quantityController,
           unitController,
@@ -73,7 +73,7 @@ class _NewInputDialogState extends ConsumerState<NewInputDialog> {
         TextButton(
           onPressed: formComplete
               ? () => Navigator.of(context).pop(
-                    FoodItemCreate()
+                    PantryItemCreate()
                       ..name = nameController.text
                       ..quantity = double.parse(quantityController.text)
                       ..unit = unitController.text

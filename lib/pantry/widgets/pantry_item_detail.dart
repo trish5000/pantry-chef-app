@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pantry_chef_app/pantry/models/food_item.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
-import 'package:pantry_chef_app/pantry/widgets/food_item_fields.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
+import 'package:pantry_chef_app/pantry/widgets/pantry_item_fields.dart';
 
-class FoodItemDetail extends ConsumerStatefulWidget {
-  final FoodItem? foodItem;
-  const FoodItemDetail({Key? key, required this.foodItem}) : super(key: key);
+class PantryItemDetail extends ConsumerStatefulWidget {
+  final PantryItem? pantryItem;
+  const PantryItemDetail({Key? key, required this.pantryItem})
+      : super(key: key);
 
   @override
-  ConsumerState<FoodItemDetail> createState() => _FoodItemDetailState();
+  ConsumerState<PantryItemDetail> createState() => _PantryItemDetailState();
 }
 
-class _FoodItemDetailState extends ConsumerState<FoodItemDetail> {
+class _PantryItemDetailState extends ConsumerState<PantryItemDetail> {
   late TextEditingController nameController,
       quantityController,
       unitController,
@@ -26,29 +27,29 @@ class _FoodItemDetailState extends ConsumerState<FoodItemDetail> {
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.foodItem!.name)
+    nameController = TextEditingController(text: widget.pantryItem!.name)
       ..addListener(checkFormComplete);
     quantityController =
-        TextEditingController(text: widget.foodItem!.quantity.toString())
+        TextEditingController(text: widget.pantryItem!.quantity.toString())
           ..addListener(checkFormComplete);
-    unitController = TextEditingController(text: widget.foodItem!.unit)
+    unitController = TextEditingController(text: widget.pantryItem!.unit)
       ..addListener(checkFormComplete);
     dateAddedController = TextEditingController(
-      text: dateFormat.format(widget.foodItem!.dateAdded),
+      text: dateFormat.format(widget.pantryItem!.dateAdded),
     );
     useByController = TextEditingController(
-      text: dateFormat.format(widget.foodItem!.useBy),
+      text: dateFormat.format(widget.pantryItem!.useBy),
     );
-    storageLocation = widget.foodItem!.storageLocation;
+    storageLocation = widget.pantryItem!.storageLocation;
   }
 
-  bool wasEdited(FoodItem foodItem) {
-    if (foodItem.name == widget.foodItem!.name &&
-        foodItem.quantity == widget.foodItem!.quantity &&
-        foodItem.unit == widget.foodItem!.unit &&
-        foodItem.storageLocation == widget.foodItem!.storageLocation &&
-        foodItem.dateAdded == widget.foodItem!.dateAdded &&
-        foodItem.useBy == widget.foodItem!.useBy) {
+  bool wasEdited(PantryItem pantryItem) {
+    if (pantryItem.name == widget.pantryItem!.name &&
+        pantryItem.quantity == widget.pantryItem!.quantity &&
+        pantryItem.unit == widget.pantryItem!.unit &&
+        pantryItem.storageLocation == widget.pantryItem!.storageLocation &&
+        pantryItem.dateAdded == widget.pantryItem!.dateAdded &&
+        pantryItem.useBy == widget.pantryItem!.useBy) {
       return false;
     }
     return true;
@@ -77,7 +78,7 @@ class _FoodItemDetailState extends ConsumerState<FoodItemDetail> {
     return SimpleDialog(
       contentPadding: const EdgeInsets.all(25),
       children: [
-        foodItemFormFields(
+        pantryItemFormFields(
           nameController,
           quantityController,
           unitController,
@@ -89,15 +90,15 @@ class _FoodItemDetailState extends ConsumerState<FoodItemDetail> {
         TextButton(
           onPressed: formComplete
               ? () {
-                  final foodItem = FoodItem()
+                  final pantryItem = PantryItem()
                     ..name = nameController.text
                     ..quantity = double.parse(quantityController.text)
                     ..unit = unitController.text
                     ..storageLocation = storageLocation
                     ..dateAdded = dateFormat.parse(dateAddedController.text)
                     ..useBy = dateFormat.parse(useByController.text);
-                  if (wasEdited(foodItem)) {
-                    Navigator.of(context).pop(foodItem);
+                  if (wasEdited(pantryItem)) {
+                    Navigator.of(context).pop(pantryItem);
                   } else {
                     Navigator.of(context).pop(null);
                   }

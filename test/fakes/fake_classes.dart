@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
-import 'package:pantry_chef_app/pantry/models/food_item.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/models/household_member_create.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
@@ -10,7 +10,7 @@ import 'package:pantry_chef_app/user/models/user.dart';
 
 final _faker = Faker();
 
-FoodItem get fakeFoodItem => FoodItem()
+PantryItem get fakePantryItem => PantryItem()
   ..name = _faker.lorem.word()
   ..quantity = _faker.randomGenerator.decimal()
   ..unit = _faker.lorem.word()
@@ -18,7 +18,7 @@ FoodItem get fakeFoodItem => FoodItem()
   ..useBy = _faker.date.dateTime()
   ..storageLocation = _faker.randomGenerator.element(StorageLocation.values);
 
-FoodItemCreate get fakeFoodItemCreate => FoodItemCreate()
+PantryItemCreate get fakePantryItemCreate => PantryItemCreate()
   ..name = _faker.lorem.word()
   ..quantity = _faker.randomGenerator.decimal()
   ..unit = _faker.lorem.word()
@@ -26,9 +26,9 @@ FoodItemCreate get fakeFoodItemCreate => FoodItemCreate()
   ..useBy = _faker.date.dateTime()
   ..storageLocation = _faker.randomGenerator.element(StorageLocation.values);
 
-List<FoodItem> fakePantry() {
-  final foodItemCount = _faker.randomGenerator.integer(300, min: 1);
-  return List<FoodItem>.generate(foodItemCount, (index) => fakeFoodItem);
+List<PantryItem> fakePantry() {
+  final pantryItemCount = _faker.randomGenerator.integer(300, min: 1);
+  return List<PantryItem>.generate(pantryItemCount, (index) => fakePantryItem);
 }
 
 Ingredient get fakeIngredient => Ingredient()

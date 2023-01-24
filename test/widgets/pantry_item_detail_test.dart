@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
-import 'package:pantry_chef_app/pantry/widgets/food_item_detail.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
+import 'package:pantry_chef_app/pantry/widgets/pantry_item_detail.dart';
 
 import '../fakes/fake_classes.dart';
 import 'simple_material_app_widget.dart';
@@ -12,7 +12,7 @@ void main() {
     await tester.pumpWidget(
       SimpleMaterialAppWidget(
         overrides: const [],
-        child: FoodItemDetail(foodItem: fakeFoodItem),
+        child: PantryItemDetail(pantryItem: fakePantryItem),
       ),
     );
 
