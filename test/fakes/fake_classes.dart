@@ -1,6 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
-import 'package:pantry_chef_app/pantry/models/food_item.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item.dart';
 import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/models/household_member_create.dart';

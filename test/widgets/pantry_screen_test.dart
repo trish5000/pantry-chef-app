@@ -4,7 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pantry_chef_app/pantry/models/pantry_item.dart';
 import 'package:pantry_chef_app/pantry/screens/pantry_screen.dart';
 import 'package:pantry_chef_app/pantry/services/pantry_service.dart';
-import 'package:pantry_chef_app/pantry/widgets/pantry_Item_detail.dart';
+import 'package:pantry_chef_app/pantry/widgets/pantry_item_detail.dart';
 import 'package:pantry_chef_app/pantry/widgets/new_input_dialog.dart';
 
 import '../fakes/fake_classes.dart';

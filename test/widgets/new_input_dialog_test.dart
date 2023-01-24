@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
 import 'package:pantry_chef_app/pantry/widgets/new_input_dialog.dart';
 
 import 'simple_material_app_widget.dart';

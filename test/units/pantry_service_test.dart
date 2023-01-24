@@ -19,7 +19,7 @@ void main() {
       api: api,
     );
 
-    when(() => api.post(any(that: matches(r'\/users/[0-9]/pantry_Items')),
+    when(() => api.post(any(that: matches(r'\/users/[0-9]/pantry_items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();
@@ -29,7 +29,7 @@ void main() {
     );
 
     when(() => api.get(
-          any(that: matches(r'\/users/[0-9]/pantry_Items')),
+          any(that: matches(r'\/users/[0-9]/pantry_items')),
         )).thenAnswer(
       (_) async {
         final response = MockResponse();
@@ -39,7 +39,7 @@ void main() {
       },
     );
 
-    when(() => api.put(any(that: matches(r'\/users/[0-9]/pantry_Items')),
+    when(() => api.put(any(that: matches(r'\/users/[0-9]/pantry_items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();
@@ -48,7 +48,7 @@ void main() {
       },
     );
 
-    when(() => api.delete(any(that: matches(r'\/users/[0-9]/pantry_Items')),
+    when(() => api.delete(any(that: matches(r'\/users/[0-9]/pantry_items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();

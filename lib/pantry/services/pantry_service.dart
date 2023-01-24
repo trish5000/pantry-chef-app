@@ -13,7 +13,7 @@ class PantryService {
   Future<List<PantryItem>> getPantry() async {
     final userId = userContext.user!.id;
     final apiResponse = await api.get(
-      '/users/$userId/pantry_Items',
+      '/users/$userId/pantry_items',
     );
     final pantryItems = apiResponse.data
         .map<PantryItem>((item) => PantryItem.fromJson(item))
@@ -24,7 +24,7 @@ class PantryService {
   Future<PantryItem> addToPantry(PantryItemCreate newPantryItem) async {
     final userId = userContext.user!.id;
     final apiResponse = await api.post(
-      '/users/$userId/pantry_Items',
+      '/users/$userId/pantry_items',
       data: newPantryItem.toJson(),
     );
     return PantryItem.fromJson(apiResponse.data);
@@ -33,7 +33,7 @@ class PantryService {
   Future<PantryItem> updatePantryItem(PantryItem pantryItem) async {
     final userId = userContext.user!.id;
     final apiResponse = await api.put(
-      '/users/$userId/pantry_Items',
+      '/users/$userId/pantry_items',
       data: pantryItem.toJson(),
     );
     return PantryItem.fromJson(apiResponse.data);
@@ -42,7 +42,7 @@ class PantryService {
   Future deletePantryItem(PantryItem pantryItem) async {
     final userId = userContext.user!.id;
     await api.delete(
-      '/users/$userId/pantry_Items',
+      '/users/$userId/pantry_items',
       data: pantryItem.toJson(),
     );
   }
