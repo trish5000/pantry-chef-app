@@ -28,15 +28,89 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  Widget suggestionCard(RecipeSuggestion suggestion) {
-    List<String> ingredients = suggestion.missingIngredients
-        .map<String>((e) => "- ${e.quantity} ${e.unit} ${e.name}\n")
-        .toList();
-    return Card(
-      child: ListTile(
-        title: Text(suggestion.recipe.name),
-        subtitle: Text(
-            '${suggestion.missingIngredients.length} ingredients needed:\n\n${ingredients.join()}'),
+  Widget ingredientCard(int numIngredients) {
+    return Expanded(
+      child: Card(
+        child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Theme.of(context).backgroundColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(numIngredients.toString()),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'ingredients needed',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
+  }
+
+  Widget pantryCard(int numIngredients) {
+    return Expanded(
+      child: Card(
+        child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Theme.of(context).highlightColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(numIngredients.toString()),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'pantry items',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
+  }
+
+  Widget suggestionItem(RecipeSuggestion suggestion) {
+    return Expanded(
+      child: Row(
+        children: [
+          SizedBox(
+            width: 92,
+            child: Center(
+              child: Text(
+                suggestion.recipe.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ),
+          ingredientCard(
+            suggestion.missingIngredients.length,
+          ),
+          pantryCard(
+            suggestion.pantryItems.length,
+          )
+        ],
       ),
     );
   }
@@ -50,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: ListView.builder(
           itemCount: recipeSuggestions.length,
           itemBuilder: (context, index) {
-            return suggestionCard(recipeSuggestions[index]);
+            return suggestionItem(recipeSuggestions[index]);
           },
         ),
       ),
