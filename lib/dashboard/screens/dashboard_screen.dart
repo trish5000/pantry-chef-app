@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/dashboard/widgets/dashboard_bottom_bar.dart';
+import 'package:pantry_chef_app/home/screens/home_screen.dart';
 import 'package:pantry_chef_app/pantry/screens/pantry_screen.dart';
 import 'package:pantry_chef_app/profile/screens/profile_screen.dart';
 import 'package:pantry_chef_app/recipes/screens/library_screen.dart';

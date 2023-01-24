@@ -4,11 +4,21 @@ import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/configuration/api_client.dart';
 import 'package:pantry_chef_app/recipes/models/recipe.dart';
 import 'package:pantry_chef_app/recipes/models/recipe_create.dart';
+import 'package:pantry_chef_app/recipes/models/recipe_suggestion.dart';
 
 class RecipeService {
   final Dio api;
   final UserContext userContext;
   RecipeService({required this.userContext, required this.api});
+
+  Future<List<RecipeSuggestion>> getRecipeSuggestions() async {
+    final userId = userContext.user!.id;
+    final apiResponse = await api.get('/users/$userId/recipes/suggestions');
+    final recipeSuggestions = apiResponse.data
+        .map<RecipeSuggestion>((r) => RecipeSuggestion.fromJson(r))
+        .toList();
+    return recipeSuggestions;
+  }
 
   Future<List<Recipe>> getRecipes() async {
     final userId = userContext.user!.id;
