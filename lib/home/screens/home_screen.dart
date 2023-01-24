@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pantry_chef_app/recipes/models/recipe_suggestion.dart';
-import 'package:pantry_chef_app/recipes/services/recipe_service.dart';
+import 'package:pantry_chef_app/home/models/recipe_suggestion.dart';
+import 'package:pantry_chef_app/home/services/suggestion_service.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,8 +20,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future _fetchRecipeSuggestions() async {
-    final recipeService = ref.read(recipeServiceProvider);
-    final results = await recipeService.getRecipeSuggestions();
+    final suggestionService = ref.read(suggestionServiceProvider);
+    final results = await suggestionService.getRecipeSuggestions();
 
     setState(() {
       recipeSuggestions = results;
