@@ -12,6 +12,9 @@ class RecipeSuggestion {
   @JsonKey(name: 'missing_ingredients')
   List<Ingredient> missingIngredients = [];
 
+  @JsonKey(name: 'pantry_ingredients')
+  List<Ingredient> pantryIngredients = [];
+
   factory RecipeSuggestion.fromJson(Map<String, dynamic> json) =>
       _$RecipeSuggestionFromJson(json);
   Map<String, dynamic> toJson() => _$RecipeSuggestionToJson(this);

@@ -11,6 +11,9 @@ RecipeSuggestion _$RecipeSuggestionFromJson(Map<String, dynamic> json) =>
       ..recipe = Recipe.fromJson(json['recipe'] as Map<String, dynamic>)
       ..missingIngredients = (json['missing_ingredients'] as List<dynamic>)
           .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..pantryIngredients = (json['pantry_ingredients'] as List<dynamic>)
+          .map((e) => Ingredient.fromJson(e as Map<String, dynamic>))
           .toList();
 
 Map<String, dynamic> _$RecipeSuggestionToJson(RecipeSuggestion instance) =>
@@ -18,4 +21,6 @@ Map<String, dynamic> _$RecipeSuggestionToJson(RecipeSuggestion instance) =>
       'recipe': instance.recipe.toJson(),
       'missing_ingredients':
           instance.missingIngredients.map((e) => e.toJson()).toList(),
+      'pantry_ingredients':
+          instance.pantryIngredients.map((e) => e.toJson()).toList(),
     };
