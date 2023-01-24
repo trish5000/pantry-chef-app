@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'food_item_create.dart';
+part of 'pantry_item_create.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FoodItemCreate _$FoodItemCreateFromJson(Map<String, dynamic> json) =>
-    FoodItemCreate()
+PantryItemCreate _$PantryItemCreateFromJson(Map<String, dynamic> json) =>
+    PantryItemCreate()
       ..name = json['name'] as String
       ..quantity = (json['quantity'] as num).toDouble()
       ..unit = json['unit'] as String
@@ -16,7 +16,7 @@ FoodItemCreate _$FoodItemCreateFromJson(Map<String, dynamic> json) =>
       ..dateAdded = DateTime.parse(json['date_added'] as String)
       ..useBy = DateTime.parse(json['use_by'] as String);
 
-Map<String, dynamic> _$FoodItemCreateToJson(FoodItemCreate instance) =>
+Map<String, dynamic> _$PantryItemCreateToJson(PantryItemCreate instance) =>
     <String, dynamic>{
       'name': instance.name,
       'quantity': instance.quantity,

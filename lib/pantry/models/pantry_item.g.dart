@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'food_item.dart';
+part of 'pantry_item.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => FoodItem()
+PantryItem _$PantryItemFromJson(Map<String, dynamic> json) => PantryItem()
   ..id = json['id'] as int
   ..userId = json['user_id'] as int
   ..timestamp = DateTime.parse(json['timestamp'] as String)
@@ -18,7 +18,8 @@ FoodItem _$FoodItemFromJson(Map<String, dynamic> json) => FoodItem()
   ..dateAdded = DateTime.parse(json['date_added'] as String)
   ..useBy = DateTime.parse(json['use_by'] as String);
 
-Map<String, dynamic> _$FoodItemToJson(FoodItem instance) => <String, dynamic>{
+Map<String, dynamic> _$PantryItemToJson(PantryItem instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,
       'timestamp': instance.timestamp.toIso8601String(),

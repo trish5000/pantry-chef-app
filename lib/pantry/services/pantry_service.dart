@@ -2,48 +2,48 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/authentication/state/auth_provider.dart';
 import 'package:pantry_chef_app/configuration/api_client.dart';
-import 'package:pantry_chef_app/pantry/models/food_item.dart';
-import 'package:pantry_chef_app/pantry/models/food_item_create.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item.dart';
+import 'package:pantry_chef_app/pantry/models/pantry_item_create.dart';
 
 class PantryService {
   final Dio api;
   final UserContext userContext;
   PantryService({required this.userContext, required this.api});
 
-  Future<List<FoodItem>> getPantry() async {
+  Future<List<PantryItem>> getPantry() async {
     final userId = userContext.user!.id;
     final apiResponse = await api.get(
-      '/users/$userId/food_items',
+      '/users/$userId/pantry_Items',
     );
-    final foodItems = apiResponse.data
-        .map<FoodItem>((item) => FoodItem.fromJson(item))
+    final pantryItems = apiResponse.data
+        .map<PantryItem>((item) => PantryItem.fromJson(item))
         .toList();
-    return foodItems;
+    return pantryItems;
   }
 
-  Future<FoodItem> addToPantry(FoodItemCreate newFoodItem) async {
+  Future<PantryItem> addToPantry(PantryItemCreate newPantryItem) async {
     final userId = userContext.user!.id;
     final apiResponse = await api.post(
-      '/users/$userId/food_items',
-      data: newFoodItem.toJson(),
+      '/users/$userId/pantry_Items',
+      data: newPantryItem.toJson(),
     );
-    return FoodItem.fromJson(apiResponse.data);
+    return PantryItem.fromJson(apiResponse.data);
   }
 
-  Future<FoodItem> updateFoodItem(FoodItem foodItem) async {
+  Future<PantryItem> updatePantryItem(PantryItem pantryItem) async {
     final userId = userContext.user!.id;
     final apiResponse = await api.put(
-      '/users/$userId/food_items',
-      data: foodItem.toJson(),
+      '/users/$userId/pantry_Items',
+      data: pantryItem.toJson(),
     );
-    return FoodItem.fromJson(apiResponse.data);
+    return PantryItem.fromJson(apiResponse.data);
   }
 
-  Future deleteFoodItem(FoodItem foodItem) async {
+  Future deletePantryItem(PantryItem pantryItem) async {
     final userId = userContext.user!.id;
     await api.delete(
-      '/users/$userId/food_items',
-      data: foodItem.toJson(),
+      '/users/$userId/pantry_Items',
+      data: pantryItem.toJson(),
     );
   }
 }

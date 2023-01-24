@@ -65,8 +65,8 @@ void main() {
   });
 
   test('get recipe library', () async {
-    final List<Recipe> foodItems = await recipeService.getRecipes();
-    expect(foodItems, isNotEmpty);
+    final List<Recipe> recipes = await recipeService.getRecipes();
+    expect(recipes, isNotEmpty);
   });
 
   test('update recipe', () async {

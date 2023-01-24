@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'food_item_create.dart';
-part 'food_item.g.dart';
+import 'pantry_item_create.dart';
+part 'pantry_item.g.dart';
 
 @JsonSerializable()
-class FoodItem {
-  FoodItem();
+class PantryItem {
+  PantryItem();
   int id = 0;
 
   @JsonKey(name: 'user_id')
@@ -25,7 +25,7 @@ class FoodItem {
   @JsonKey(name: 'use_by')
   DateTime useBy = DateTime.now();
 
-  factory FoodItem.fromJson(Map<String, dynamic> json) =>
-      _$FoodItemFromJson(json);
-  Map<String, dynamic> toJson() => _$FoodItemToJson(this);
+  factory PantryItem.fromJson(Map<String, dynamic> json) =>
+      _$PantryItemFromJson(json);
+  Map<String, dynamic> toJson() => _$PantryItemToJson(this);
 }

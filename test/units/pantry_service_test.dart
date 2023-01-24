@@ -19,17 +19,17 @@ void main() {
       api: api,
     );
 
-    when(() => api.post(any(that: matches(r'\/users/[0-9]/food_items')),
+    when(() => api.post(any(that: matches(r'\/users/[0-9]/pantry_Items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();
-        when(() => response.data).thenReturn(fakeFoodItem.toJson());
+        when(() => response.data).thenReturn(fakePantryItem.toJson());
         return response;
       },
     );
 
     when(() => api.get(
-          any(that: matches(r'\/users/[0-9]/food_items')),
+          any(that: matches(r'\/users/[0-9]/pantry_Items')),
         )).thenAnswer(
       (_) async {
         final response = MockResponse();
@@ -39,42 +39,43 @@ void main() {
       },
     );
 
-    when(() => api.put(any(that: matches(r'\/users/[0-9]/food_items')),
+    when(() => api.put(any(that: matches(r'\/users/[0-9]/pantry_Items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();
-        when(() => response.data).thenReturn(fakeFoodItem.toJson());
+        when(() => response.data).thenReturn(fakePantryItem.toJson());
         return response;
       },
     );
 
-    when(() => api.delete(any(that: matches(r'\/users/[0-9]/food_items')),
+    when(() => api.delete(any(that: matches(r'\/users/[0-9]/pantry_Items')),
         data: any(named: 'data'))).thenAnswer(
       (_) async {
         final response = MockResponse();
-        when(() => response.data).thenReturn(fakeFoodItem.toJson());
+        when(() => response.data).thenReturn(fakePantryItem.toJson());
         return response;
       },
     );
   });
 
   test('adding to pantry', () async {
-    final foodItem = await pantryService.addToPantry(fakeFoodItemCreate);
-    expect(foodItem, isNot(isNull));
+    final pantryItem = await pantryService.addToPantry(fakePantryItemCreate);
+    expect(pantryItem, isNot(isNull));
   });
 
   test('getting pantry', () async {
-    final foodItems = await pantryService.getPantry();
-    expect(foodItems, isNotEmpty);
+    final pantryItems = await pantryService.getPantry();
+    expect(pantryItems, isNotEmpty);
   });
 
   test('update pantry', () async {
-    final updatedFoodItem = await pantryService.updateFoodItem(fakeFoodItem);
-    expect(updatedFoodItem, isNot(isNull));
+    final updatedPantryItem =
+        await pantryService.updatePantryItem(fakePantryItem);
+    expect(updatedPantryItem, isNot(isNull));
   });
 
   test('delete pantry', () async {
-    final res = await pantryService.deleteFoodItem(fakeFoodItem);
+    final res = await pantryService.deletePantryItem(fakePantryItem);
     expect(res, isNull);
   });
 

@@ -14,7 +14,7 @@ void main() {
   late List<Recipe> mockLibrary;
 
   setUpAll(() {
-    registerFallbackValue(fakeFoodItem);
+    registerFallbackValue(fakePantryItem);
     mockRecipeService = MockRecipeService();
     mockLibrary = fakeLibrary();
 
