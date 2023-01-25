@@ -58,8 +58,8 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
 
   Widget ingredientList(List<Ingredient> ingredients) {
     var ingredientSubset = ingredients;
-    if (ingredients.length > 5) {
-      ingredientSubset = ingredients.sublist(0, 5);
+    if (ingredients.length > 4) {
+      ingredientSubset = ingredients.sublist(0, 4);
     }
     return Column(
       children: ingredientSubset

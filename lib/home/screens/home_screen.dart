@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/home/models/recipe_suggestion.dart';
 import 'package:pantry_chef_app/home/services/suggestion_service.dart';
+import 'package:pantry_chef_app/home/state/suggestion_filters.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,9 +20,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _fetchRecipeSuggestions();
   }
 
-  Future _fetchRecipeSuggestions() async {
+  Future _fetchRecipeSuggestions({SuggestionFilters? filters}) async {
     final suggestionService = ref.read(suggestionServiceProvider);
-    final results = await suggestionService.getRecipeSuggestions();
+    final results = await suggestionService.getRecipeSuggestions(filters);
 
     setState(() {
       recipeSuggestions = results;
@@ -49,8 +50,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const Expanded(
                   child: Text(
                     'ingredients needed',
-                    maxLines: 2,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13),
                   ),
                 ),
               ],
@@ -66,6 +68,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
+                const Text(
+                  'uses',
+                  style: TextStyle(fontSize: 13),
+                ),
+                const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
@@ -82,6 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     'pantry items',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13),
                   ),
                 ),
               ],
@@ -91,42 +99,119 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget suggestionItem(RecipeSuggestion suggestion) {
-    return Expanded(
-      child: Row(
-        children: [
-          SizedBox(
-            width: 92,
-            child: Center(
-              child: Text(
-                suggestion.recipe.name,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+    return Row(
+      children: [
+        SizedBox(
+          width: 80,
+          child: Center(
+            child: Text(
+              suggestion.recipe.name,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
-          ingredientCard(
-            suggestion.missingIngredients.length,
-          ),
-          pantryCard(
-            suggestion.pantryItems.length,
-          )
-        ],
+        ),
+        const SizedBox(width: 8),
+        ingredientCard(
+          suggestion.missingIngredients.length,
+        ),
+        pantryCard(
+          suggestion.pantryItems.length,
+        )
+      ],
+    );
+  }
+
+  Widget filters() {
+    return Container(
+      color: Theme.of(context).focusColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 10,
+        ),
+        child: Row(
+          children: [
+            numServingsFilter(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget numServingsFilter() {
+    final suggestionFilters = ref.watch(suggestionFiltersProvider);
+
+    return Row(children: [
+      decrementServingsButton(),
+      const SizedBox(width: 4),
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Theme.of(context).cardColor),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            '${suggestionFilters.servings} servings',
+            style: const TextStyle(fontSize: 15),
+          ),
+        ),
+      ),
+      const SizedBox(width: 3),
+      incrementServingsButton(),
+    ]);
+  }
+
+  Widget incrementServingsButton() {
+    return GestureDetector(
+      onTap: () async {
+        final suggestionFiltersNotifier =
+            ref.read(suggestionFiltersProvider.notifier);
+        suggestionFiltersNotifier.incrementServings();
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Widget decrementServingsButton() {
+    return GestureDetector(
+      onTap: () async {
+        final suggestionFiltersNotifier =
+            ref.read(suggestionFiltersProvider.notifier);
+        suggestionFiltersNotifier.decrementServings();
+      },
+      child: const Icon(Icons.remove),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<SuggestionFilters>(suggestionFiltersProvider,
+        (previous, next) => _fetchRecipeSuggestions(filters: next));
+
     return Scaffold(
       appBar: AppBar(title: const Text("What should I cook today?")),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: recipeSuggestions.length,
-          itemBuilder: (context, index) {
-            return suggestionItem(recipeSuggestions[index]);
-          },
-        ),
+      body: Column(
+        children: [
+          filters(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  Flexible(
+                    child: ListView.builder(
+                      itemCount: recipeSuggestions.length,
+                      itemBuilder: (context, index) {
+                        return suggestionItem(recipeSuggestions[index]);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
