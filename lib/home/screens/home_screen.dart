@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pantry_chef_app/home/models/recipe_suggestion.dart';
 import 'package:pantry_chef_app/home/services/suggestion_service.dart';
 import 'package:pantry_chef_app/home/state/suggestion_filters.dart';
+import 'package:pantry_chef_app/profile/services/household_service.dart';
+import 'package:pantry_chef_app/profile/state/household.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,8 +23,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Future _fetchRecipeSuggestions({SuggestionFilters? filters}) async {
+    // Get household size, which is default for number of servings
+    // TODO use shared preferences instead?
+    final householdState = ref.read(householdStateProvider);
+    if (householdState.size == null) {
+      final householdService = ref.read(householdServiceProvider);
+      final members = await householdService.getHousehold();
+
+      final householdState = HouseholdState(size: members.length);
+      ref.read(householdStateProvider.notifier).update((_) => householdState);
+      final suggestionFiltersNotifier =
+          ref.read(suggestionFiltersProvider.notifier);
+      suggestionFiltersNotifier.specifyServings(members.length.toDouble());
+    }
+
     final suggestionService = ref.read(suggestionServiceProvider);
     final results = await suggestionService.getRecipeSuggestions(filters);
+
+    if (!mounted) return;
 
     setState(() {
       recipeSuggestions = results;

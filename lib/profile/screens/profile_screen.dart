@@ -5,6 +5,7 @@ import 'package:pantry_chef_app/navigation/top_level_router.dart';
 import 'package:pantry_chef_app/profile/models/household_member.dart';
 import 'package:pantry_chef_app/profile/models/household_member_create.dart';
 import 'package:pantry_chef_app/profile/services/household_service.dart';
+import 'package:pantry_chef_app/profile/state/household.dart';
 import 'package:pantry_chef_app/profile/widgets/household_member_tile.dart';
 import 'package:pantry_chef_app/profile/widgets/new_member_dialog.dart';
 
@@ -29,6 +30,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     loading = true;
     final householdService = ref.read(householdServiceProvider);
     final householdMembers = await householdService.getHousehold();
+
+    final householdState = HouseholdState(size: householdMembers.length);
+    ref.read(householdStateProvider.notifier).update((_) => householdState);
 
     setState(() {
       members = householdMembers;

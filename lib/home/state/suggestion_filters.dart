@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SuggestionFilters {
-  double servings;
-  SuggestionFilters(this.servings);
+  double? servings;
+  SuggestionFilters({this.servings});
 
   SuggestionFilters copywith({
     double? servings,
   }) {
-    return SuggestionFilters(servings ?? this.servings);
+    return SuggestionFilters(servings: servings ?? this.servings);
   }
 }
 
@@ -22,22 +22,26 @@ class SuggestionFiltersNotifier extends StateNotifier<SuggestionFilters> {
   }
 
   void incrementServings() {
-    state = state.copywith(servings: state.servings + 1);
+    if (state.servings == null) return;
+
+    state = state.copywith(servings: state.servings! + 1);
   }
 
   void decrementServings() {
-    state = state.copywith(servings: max(state.servings - 1, 0.5));
+    if (state.servings == null) return;
+
+    state = state.copywith(servings: max(state.servings! - 1, 0.5));
   }
 
   void reset() {
     // Also TODO here
-    state = SuggestionFilters(1.0);
+    state = SuggestionFilters();
   }
 }
 
 final suggestionFiltersProvider =
     StateNotifierProvider<SuggestionFiltersNotifier, SuggestionFilters>((ref) {
   // TODO read the initial state from a household state provider
-  final initialState = SuggestionFilters(1.0);
+  final initialState = SuggestionFilters();
   return SuggestionFiltersNotifier(initialState);
 });
