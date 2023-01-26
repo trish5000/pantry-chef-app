@@ -31,19 +31,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final householdService = ref.read(householdServiceProvider);
     final householdMembers = await householdService.getHousehold();
 
-    final householdState = HouseholdState(size: householdMembers.length);
-    ref.read(householdStateProvider.notifier).update((_) => householdState);
-
     setState(() {
       members = householdMembers;
       loading = false;
     });
   }
 
+  void updateSuggestionFilters(int householdSize) {
+    final householdStateNotifier = ref.read(householdStateProvider.notifier);
+    householdStateNotifier.specifyHouseholdSize(householdSize);
+  }
+
   void removeMember(int index) async {
     final householdService = ref.read(householdServiceProvider);
     await householdService.removeHouseholdMember(members[index]);
 
+    updateSuggestionFilters(members.length - 1);
     _fetchHousehold();
   }
 
@@ -115,6 +118,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final householdService = ref.read(householdServiceProvider);
     await householdService.addMember(newMemberCreate);
 
+    updateSuggestionFilters(members.length + 1);
     _fetchHousehold();
   }
 

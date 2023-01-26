@@ -24,17 +24,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Future _fetchRecipeSuggestions({SuggestionFilters? filters}) async {
     // Get household size, which is default for number of servings
-    // TODO use shared preferences instead?
     final householdState = ref.read(householdStateProvider);
     if (householdState.size == null) {
       final householdService = ref.read(householdServiceProvider);
       final members = await householdService.getHousehold();
 
-      final householdState = HouseholdState(size: members.length);
-      ref.read(householdStateProvider.notifier).update((_) => householdState);
-      final suggestionFiltersNotifier =
-          ref.read(suggestionFiltersProvider.notifier);
-      suggestionFiltersNotifier.specifyServings(members.length.toDouble());
+      final householdStateNotifier = ref.read(householdStateProvider.notifier);
+      householdStateNotifier.specifyHouseholdSize(members.length);
     }
 
     final suggestionService = ref.read(suggestionServiceProvider);
