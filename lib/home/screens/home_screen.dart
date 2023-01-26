@@ -117,25 +117,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget suggestionItem(RecipeSuggestion suggestion) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 80,
-          child: Center(
-            child: Text(
-              suggestion.recipe.name,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+        Padding(
+          padding: const EdgeInsets.only(left: 6),
+          child: Text(
+            suggestion.recipe.name,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        const SizedBox(width: 8),
-        ingredientCard(
-          suggestion.missingIngredients.length,
+        Row(
+          children: [
+            ingredientCard(
+              suggestion.missingIngredients.length,
+            ),
+            pantryCard(
+              suggestion.pantryItems.length,
+            )
+          ],
         ),
-        pantryCard(
-          suggestion.pantryItems.length,
-        )
       ],
     );
   }
@@ -218,7 +219,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 children: [
                   Flexible(
-                    child: ListView.builder(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
                       itemCount: recipeSuggestions.length,
                       itemBuilder: (context, index) {
                         return suggestionItem(recipeSuggestions[index]);
